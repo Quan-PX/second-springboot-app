@@ -12,5 +12,5 @@ public interface UserMapper {
     void updateUser(@MappingTarget User user, UserCreationRequest request);
     UserResponse toUserResponse(User user);
     // @Mapping(source = "", target="") // map voi cac fields khac nhau tu source thanh target
-    // @Mapping(target="", ignore=true) // map voi cac fields nhung tru fiels nay` 
+    // @Mapping(target="", ignore=true) // map voi cac fields nhung tru fiels nay`
 }
