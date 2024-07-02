@@ -37,7 +37,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()                                    // con cai nay la tat ca cac request khac phai yeu cau authenticate
 
         );
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()).jwtAuthenticationConverter(jwtAuthenticationConverter())));
+        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()).jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                .authenticationEntryPoint(new JwtAuthenticationEntrypoint())                 // khi authentication bi loi -> thi dieu huong nguoi dung di dau -> ta se chi tra ve exception o day
+        );
+
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         
         return httpSecurity.build();
