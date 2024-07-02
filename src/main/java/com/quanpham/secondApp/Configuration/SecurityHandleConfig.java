@@ -2,11 +2,14 @@ package com.quanpham.secondApp.Configuration;
 
 
 import com.quanpham.secondApp.Service.UserService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -31,7 +34,7 @@ public class SecurityHandleConfig {
     public WebMvcConfigurer corsConfigurer(){
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
+            public void addCorsMappings(@NotNull CorsRegistry registry) {
                 registry.addMapping("**")
                         .allowedOrigins("http://locallhost:8080")
                         .allowedMethods("GET", "POST", "PUT", "DELETE") // Allowed HTTP method
@@ -63,6 +66,11 @@ public class SecurityHandleConfig {
         provider.setPasswordEncoder(getPasswordEncoder());
 //        provider.setUserDetailsService();   // find username trong datebase theo UserDetails cua spring
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {   // quan ly cac role, cac User
+        return config.getAuthenticationManager();
     }
 
     @Bean
