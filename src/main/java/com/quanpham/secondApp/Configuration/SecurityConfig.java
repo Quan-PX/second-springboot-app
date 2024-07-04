@@ -49,7 +49,7 @@ public class SecurityConfig {
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter(){
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");  // config cai SCOPE_ADMIN -> ROLE
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");  // config cai SCOPE_ADMIN -> ROLE // vi set cai scope co Role roi -> ta xoa ROLE_ o day
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         return jwtAuthenticationConverter;
     }
