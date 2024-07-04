@@ -1,5 +1,6 @@
 package com.quanpham.secondApp.dto.request;
 
+import com.quanpham.secondApp.Validator.DobConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,5 +24,6 @@ public class UserCreationRequest {
 
      String lastName;
 
+     @DobConstraint(min = 18, message = "INVALID_DOB")
      LocalDate dob;
 }
