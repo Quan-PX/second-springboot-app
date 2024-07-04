@@ -5,6 +5,7 @@ import com.quanpham.secondApp.Service.AuthenticationService;
 import com.quanpham.secondApp.dto.request.ApiResponse;
 import com.quanpham.secondApp.dto.request.AuthenticationRequest;
 import com.quanpham.secondApp.dto.request.IntrospectTokenRequest;
+import com.quanpham.secondApp.dto.request.LogoutRequest;
 import com.quanpham.secondApp.dto.response.AuthenticationResponse;
 import com.quanpham.secondApp.dto.response.IntrospectTokenResponse;
 import lombok.AccessLevel;
@@ -38,6 +39,13 @@ public class AuthenticationController {
         var result = authenticationService.introspectTokenResponse(request);
         return ApiResponse.<IntrospectTokenResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 }
