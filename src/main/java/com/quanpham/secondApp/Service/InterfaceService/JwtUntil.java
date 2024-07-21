@@ -1,10 +1,9 @@
-package com.quanpham.secondApp.Configuration;
+package com.quanpham.secondApp.Service.InterfaceService;
 
-import com.quanpham.secondApp.Service.JwtService.JwtService;
+import com.nimbusds.jwt.SignedJWT;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoder;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
@@ -43,16 +42,25 @@ public class JwtUntil implements JwtService {
     }
 
     @Override
-    public boolean validateToken(String token, UserDetails user) {
+    public boolean validateToken(String token) {
         final String username = extractUser(token); // truyen token vao va extract
-
-        // con dieu kien check xem no con han hay khong nua...
-        return username.equals(user.getUsername()); // check xem no co giong username trong database hay ko
+        try {
+            Claims claims = extraAllClaim(token);
+            // Kiểm tra thời hạn của token
+            Date expirationDate = claims.getExpiration();
+            if (expirationDate.before(new Date()) && username!=null) {
+                return false; // Token đã hết hạn
+            }
+            // Kiểm tra tính hợp lệ của token ở đây (nếu cần)
+            return true; // Token hợp lệ
+        } catch (Exception e) {
+            return false; // Token không hợp lệ
+        }
     }
 
     @Override
     public String refreshToken(UserDetails user) {
-        return generateToken(new HashMap<>(), user);
+        return generateRefreshToken(new HashMap<>(), user);
     }
 
     public String generateToken(Map<String, Objects> claims, UserDetails userDetails){

@@ -10,7 +10,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,14 +23,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@Configuration
 @RequiredArgsConstructor
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityHandleConfig {
 
-//    private final UserService userService;
+    private final UserService userService;
     private final PreFilter preFiler;
 
-    private String[] WHITE_LIST = {"/login", "/refresh"};
+    private String[] WHITE_LIST = {"/login", "/refresh", "/users", "/auth/token", "/auth/introspect"};
 
     @Bean
     public WebMvcConfigurer corsConfigurer(){
@@ -64,7 +68,7 @@ public class SecurityHandleConfig {
     public AuthenticationProvider provider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(getPasswordEncoder());
-//        provider.setUserDetailsService();   // find username trong datebase theo UserDetails cua spring
+        provider.setUserDetailsService(userService.userDetailService());   // find username trong datebase theo UserDetails cua spring
         return provider;
     }
 

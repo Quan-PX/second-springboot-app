@@ -61,7 +61,7 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse authenticate(AuthenticationRequest request){
-        var user = userRepository.findUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
@@ -73,7 +73,7 @@ public class AuthenticationService {
         }
 
         return AuthenticationResponse.builder()
-                .token(token)
+                .accessToken(token)
                 .authenticated(true)
                 .build();
     }

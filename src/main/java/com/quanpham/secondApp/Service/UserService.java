@@ -2,6 +2,8 @@ package com.quanpham.secondApp.Service;
 
 import com.quanpham.secondApp.Entity.User;
 import com.quanpham.secondApp.Enums.Role;
+import com.quanpham.secondApp.Exception.AppException;
+import com.quanpham.secondApp.Exception.ErrorCode;
 import com.quanpham.secondApp.Mapper.UserMapper;
 import com.quanpham.secondApp.Repository.UserRepository;
 import com.quanpham.secondApp.dto.request.UserCreationRequest;
@@ -10,6 +12,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,7 @@ import java.util.HashSet;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserService {
+public class UserService implements com.quanpham.secondApp.Service.InterfaceService.UserService {
 
     final UserRepository userRepository;
     final UserMapper userMapper;
@@ -38,8 +42,28 @@ public class UserService {
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-        user.setRoles(roles);
+//        user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public UserDetailsService userDetailService() {
+        return username -> userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+    }
+
+    @Override
+    public long saveUser(UserCreationRequest request) {
+        return 0;
+    }
+
+    @Override
+    public void updateUser(long userId, UserCreationRequest request) {
+
+    }
+
+    @Override
+    public void deleteUser(long userId) {
+
     }
 }

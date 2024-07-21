@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3306/bookteria_identity"
+    url: "jdbc:mysql://localhost:3306/quanpham-secondapp"
     username: root
     password: root
 
@@ -15,9 +15,9 @@ jpa:
   show-sql: true
 
 jwt:
-  signerKey: "1TjXchw5FloESb63Kc+DFhTARvpWL4jUGCwfGWxuG5SIf/1y/LgJxHnMqaF6A/ij"
+  signerKey: 0053fe0004fb4e1a65316d5e70f64fe1ec3b455467295960c1f67e7058790c02
   valid-duration: 3600 # in second
   refreshable-duration: 36000 # in seconds
   timeOut: 24
   expiryDay: 14
-#  secretKey: abc
+#  secretKey: abc   0053fe0004fb4e1a65316d5e70f64fe1ec3b455467295960c1f67e7058790c02

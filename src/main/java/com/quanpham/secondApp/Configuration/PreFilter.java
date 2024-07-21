@@ -1,6 +1,6 @@
 package com.quanpham.secondApp.Configuration;
 
-import com.quanpham.secondApp.Service.JwtService.JwtService;
+import com.quanpham.secondApp.Service.InterfaceService.JwtService;
 import com.quanpham.secondApp.Service.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -41,16 +40,15 @@ public class PreFilter extends OncePerRequestFilter {
         final String username = jwtService.extractUser(token);
 
         if(StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null){
-//            UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username); // check database xem user co exist ko
-//            if(jwtService.validateToken(token, userDetails)) {      // sau khi ktra roi thi ta kiem tra token hop le ko
-//                SecurityContext context = SecurityContextHolder.createEmptyContext();   // Tao context moi
-//                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // tao ra 1 username, password o trong co che AuthenticationProvider
-//                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));     // build request de day het thong tin vao request nay
-//                context.setAuthentication(authenticationToken);     // context se gan authen
-//                SecurityContextHolder.setContext(context);          // gan laij securitycontextholder
-//            }
+            UserDetails userDetails = userService.userDetailService().loadUserByUsername(username);        // check database xem user co exist ko
+            if(jwtService.validateToken(token) && userDetails.equals(jwtService.extractUser(userDetails.getUsername()))) {      // sau khi ktra roi thi ta kiem tra token hop le ko
+                SecurityContext context = SecurityContextHolder.createEmptyContext();   // Tao context moi
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // tao ra 1 username, password o trong co che AuthenticationProvider
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));     // build request de day het thong tin vao request nay
+                context.setAuthentication(authenticationToken);     // context se gan authen
+                SecurityContextHolder.setContext(context);          // gan laij securitycontextholder
+            }
         }
-
         filterChain.doFilter(request, response);
     }
 }
