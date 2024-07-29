@@ -13,6 +13,6 @@ import java.io.Serializable;
 public class AuthenticationResponse implements Serializable {
     String accessToken;
     String refreshToken;
-    String userId;
+    Long userId;
     boolean authenticated;
 }

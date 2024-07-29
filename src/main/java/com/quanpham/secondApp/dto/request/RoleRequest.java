@@ -15,5 +15,5 @@ import java.util.Set;
 public class RoleRequest implements Serializable {
     String name;
     String description;
-    Set<String> permissions;
+    Set<Integer> permissions;
 }
