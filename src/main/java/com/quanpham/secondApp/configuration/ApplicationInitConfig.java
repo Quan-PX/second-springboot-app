@@ -22,16 +22,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
-@Configuration
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+//@Configuration
+//@RequiredArgsConstructor
+//@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 public class ApplicationInitConfig {
 
     PasswordEncoder passwordEncoder;
 
     // khi ung dung chay no se tao 1 user Admin
-    @Bean
+//    @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository, PermissionRepository permissionRepository, RoleRepository roleRepository, GroupRepository groupRepository){
 
         return args -> {
@@ -39,7 +39,7 @@ public class ApplicationInitConfig {
 
                 if(roleRepository.findByName(RoleEnum.ADMIN.name()).isEmpty() && roleRepository.findByName(RoleEnum.USER.name()).isEmpty()){
 
-                    if(true) {          //permissionRepository.findByName(PermissionEnum.FULLACCESS.name()).isEmpty()
+                    if(permissionRepository.findByName(PermissionEnum.FULLACCESS.name()).isEmpty()) {          //permissionRepository.findByName(PermissionEnum.FULLACCESS.name()).isEmpty()
 
                         Permission fullAccess = Permission.builder()
                                 .name(PermissionEnum.FULLACCESS.name())

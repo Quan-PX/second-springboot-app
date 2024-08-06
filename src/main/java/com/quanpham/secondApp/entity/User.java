@@ -44,12 +44,12 @@ public class User extends AbstractEntity<Long> implements UserDetails {
     @Enumerated(EnumType.STRING)
 //    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status")
-    UserStatus status;
+    UserStatus status = UserStatus.ACTIVE;
 
     @Enumerated(EnumType.STRING)    // enum nay kieu string se duoc add vao column trong kieu table user
 //    @JdbcTypeCode(SqlTypes.NAMED_ENUM)  // chuyen doi du lieu tu enum sang column
     @Column(name = "gender")
-    Gender gender;
+    Gender gender = Gender.NONE;
 
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")   // the hien moi quan he voi user, user co quan he 1 nhieu voi address
 //    Set<Address> addresses = new HashSet<>();
@@ -74,7 +74,7 @@ public class User extends AbstractEntity<Long> implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserStatus.ACTIVE.equals(status);
+        return true;              // UserStatus.ACTIVE.equals(status);
     }
 
     @Override

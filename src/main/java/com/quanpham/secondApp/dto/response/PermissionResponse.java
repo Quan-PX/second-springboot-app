@@ -1,5 +1,6 @@
 package com.quanpham.secondApp.dto.response;
 
+import com.quanpham.secondApp.dto.request.PermissionRequest;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

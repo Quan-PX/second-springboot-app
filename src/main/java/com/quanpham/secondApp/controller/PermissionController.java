@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/permissions")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class PermissonController {
+public class PermissionController {
     PermissionService permissionService;
 
     @PostMapping
@@ -32,8 +32,15 @@ public class PermissonController {
                 .build();
     }
 
-    @DeleteMapping("/permissionId")
-    ApiResponse<Void> delete(@PathVariable int permission){
+    @GetMapping("/{permissionId}")
+    ApiResponse<PermissionResponse> getPermission(@PathVariable("permissionId") int permissionId){
+        return ApiResponse.<PermissionResponse>builder()
+                .result(permissionService.getPermission(permissionId))
+                .build();
+    }
+
+    @DeleteMapping("/{permissionId}")
+    ApiResponse<Void> delete(@PathVariable("permissionId") int permission){
         permissionService.delete(permission);
         return ApiResponse.<Void>builder()
                 .build();

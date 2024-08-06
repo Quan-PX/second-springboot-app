@@ -1,6 +1,7 @@
 package com.quanpham.secondApp.controller;
 
 import com.nimbusds.jose.JOSEException;
+import com.quanpham.secondApp.repository.UserRepository;
 import com.quanpham.secondApp.service.AuthenticationHandleService;
 import com.quanpham.secondApp.dto.request.*;
 import com.quanpham.secondApp.dto.response.AuthenticationResponse;
@@ -23,10 +24,13 @@ public class AuthenticationController {
 
 //    AuthenticationService authenticationService;
     AuthenticationHandleService authenticationHandleService;
+    UserRepository userRepository;
 
     @PostMapping("/token")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
            var result = authenticationHandleService.authenticate(request);
+           var user = userRepository.findByUsername(request.getUsername());
+
            return ApiResponse.<AuthenticationResponse>builder()
                    .result(result)
                    .build();

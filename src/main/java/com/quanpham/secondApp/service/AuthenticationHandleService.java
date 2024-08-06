@@ -9,6 +9,7 @@ import com.quanpham.secondApp.dto.request.AuthenticationRequest;
 import com.quanpham.secondApp.dto.request.IntrospectTokenRequest;
 import com.quanpham.secondApp.dto.response.AuthenticationResponse;
 import com.quanpham.secondApp.dto.response.IntrospectTokenResponse;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,7 +27,7 @@ public class AuthenticationHandleService {
     AuthenticationManager authenticationManager;
     JwtUntil jwtUntil;
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request){
+    public AuthenticationResponse authenticate(@NotNull AuthenticationRequest request){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));

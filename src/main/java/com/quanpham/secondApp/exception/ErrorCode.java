@@ -15,6 +15,7 @@ public enum ErrorCode {
     UNAUTHENTICATED("Unauthenticated", 6666, HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED("UnAuthorized - you do not permission", 103, HttpStatus.FORBIDDEN),
     INVALID_DOB("Your age must be ay least {min}", 1027, HttpStatus.BAD_REQUEST),
+    INVALID_ENUM_TYPE("EnumType not match", 1010, HttpStatus.BAD_REQUEST)
     ;
 
     ErrorCode(String message, int code, HttpStatusCode httpStatusCode) {

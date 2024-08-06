@@ -32,16 +32,16 @@ import java.util.Date;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-@Service
-@RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+//@Service
+//@RequiredArgsConstructor
+//@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationService {
 
     UserRepository userRepository;
     InvalidatedRepository invalidatedRepository;
 
     @NonFinal
-    @Value("${jwt.signerKey}")
+    @Value("${jwt.secretKey}")
     protected String SIGNER_KEY;
 
 

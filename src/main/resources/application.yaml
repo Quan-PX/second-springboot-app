@@ -16,9 +16,10 @@ spring:
     generate-ddl: true
 
 jwt:
-  signerKey: 0053fe0004fb4e1a65316d5e70f64fe1ec3b455467295960c1f67e7058790c02
+  secretKey: 2afc9dd527ddcece93ade3043128c21459fba23a411a6015f531a326cd67a317
   valid-duration: 3600 # in second
   refreshable-duration: 36000 # in seconds
   timeOut: 24
   expiryDay: 14
-#  secretKey: abc   0053fe0004fb4e1a65316d5e70f64fe1ec3b455467295960c1f67e7058790c02
+#  secretKey: abc   0053fe0004fb4e1a65316d5e70f64fe1ec3b455467295960c1f67e7058790c02    2afc9dd527ddcece93ade3043128c21459fba23a411a6015f531a326cd67a317
+#  TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=

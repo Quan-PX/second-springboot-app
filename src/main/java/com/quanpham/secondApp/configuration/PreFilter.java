@@ -42,14 +42,13 @@ public class PreFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         // neu no chua token thi
         final String token = authorization.substring("Bearer ".length());
         final String username = jwtService.extractUser(token);
 
         if(StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = userService.userDetailService().loadUserByUsername(username);        // check database xem user co exist ko
-            if(jwtService.validateToken(token) && userDetails.equals(jwtService.extractUser(userDetails.getUsername()))) {      // sau khi ktra roi thi ta kiem tra token hop le ko
+            if(jwtService.validateToken(token) && userDetails.getUsername().equals(jwtService.extractUser(token))) {      // sau khi ktra roi thi ta kiem tra token hop le ko
                 SecurityContext context = SecurityContextHolder.createEmptyContext();   // Tao context moi
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); // tao ra 1 username, password o trong co che AuthenticationProvider
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));     // build request de day het thong tin vao request nay
