@@ -34,7 +34,7 @@ public class UserCreationRequest implements Serializable {
     @Email(message = "Email should be valid")
     String email;
 
-    @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number should be valid")
+    @Pattern(regexp = "^(?:[0-9] ?){6,14}[0-9]$", message = "Phone number should be valid")
     String phone;
 
     @Pattern(regexp = "^(male|female|none)$", message = "Gender must be either male or female")

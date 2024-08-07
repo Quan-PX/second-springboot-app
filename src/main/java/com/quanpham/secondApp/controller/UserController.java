@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserController {
     @PostMapping("/registration")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request){
         return ApiResponse.<UserResponse>builder()
+                .code(HttpStatus.OK.value())
                 .result(userService.createUser(request))
                 .build();
     }
@@ -31,6 +33,7 @@ public class UserController {
     @GetMapping("/{userId}")
     ApiResponse<UserResponse> getUser(@PathVariable Long userId){
         return ApiResponse.<UserResponse>builder()
+                .code(HttpStatus.OK.value())
                 .result(userService.getUser(userId))
                 .build();
     }
@@ -38,6 +41,7 @@ public class UserController {
     @GetMapping()
     ApiResponse<List<UserResponse>> getUsers(){
         return ApiResponse.<List<UserResponse>>builder()
+                .code(HttpStatus.OK.value())
                 .result(userService.getUsers())
                 .build();
     }
@@ -45,8 +49,17 @@ public class UserController {
     @PutMapping("/{userId}")
     ApiResponse<UserResponse> updateUser(@PathVariable("userId") Long userId, @RequestBody UserCreationRequest request){
         return ApiResponse.<UserResponse>builder()
+                .code(HttpStatus.OK.value())
                 .result(userService.updateUser(userId, request))
                 .build();
     }
 
+    @DeleteMapping("/{userId}")
+    ApiResponse<Void> deleteUser(@PathVariable("userId") Long userId){
+        userService.deleteUser(userId);
+        return ApiResponse.<Void>builder()
+                .code(HttpStatus.OK.value())
+                .message("delete user successfully")
+                .build();
+    }
 }

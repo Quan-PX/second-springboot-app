@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Getter
@@ -38,8 +39,8 @@ public class User extends AbstractEntity<Long> implements UserDetails {
     String phone;
 
     @Column(name = "date_of_birth")
-    @Temporal(TemporalType.DATE)    // chi nhan kieu ngay, ko nhan gio phut giay
-    Date dateOfBirth;
+//    @Temporal(TemporalType.DATE)    // chi nhan kieu ngay, ko nhan gio phut giay
+    LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
 //    @JdbcTypeCode(SqlTypes.NAMED_ENUM)

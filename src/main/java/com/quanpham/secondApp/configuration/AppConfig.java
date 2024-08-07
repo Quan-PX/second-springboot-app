@@ -36,7 +36,7 @@ public class AppConfig {
     private final PreFilter preFiler;
 
 
-    private String[] WHITE_LIST = {"/login", "/refresh", "/users", "/auth/token", "/auth/introspect"};
+    private String[] WHITE_LIST = {"/login", "/refresh", "/users", "/auth/token", "/auth/introspect", "users/registration"};
 
     public AppConfig(@Lazy UserService userService, PreFilter preFiler) {
         this.userService = userService;

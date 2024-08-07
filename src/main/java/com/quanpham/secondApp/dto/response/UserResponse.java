@@ -19,6 +19,6 @@ public class UserResponse implements Serializable {
     String username;
     String firstName;
     String lastName;
-    LocalDate dob;
+    LocalDate dateOfBirth;
     Set<RoleResponse> roles;
 }

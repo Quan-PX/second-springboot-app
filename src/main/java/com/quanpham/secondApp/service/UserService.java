@@ -1,7 +1,10 @@
 package com.quanpham.secondApp.service;
 
+import com.quanpham.secondApp.entity.Role;
 import com.quanpham.secondApp.entity.User;
+import com.quanpham.secondApp.enums.Gender;
 import com.quanpham.secondApp.enums.RoleEnum;
+import com.quanpham.secondApp.enums.UserStatus;
 import com.quanpham.secondApp.exception.AppException;
 import com.quanpham.secondApp.exception.ErrorCode;
 import com.quanpham.secondApp.mapper.UserMapper;
@@ -16,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -30,18 +36,17 @@ public class UserService implements IUserService {
     private final RoleRepository roleRepository;
 
     public UserResponse createUser(UserCreationRequest request){
-//        User user = new User();
-//        user.setUsername(request.getUsername());
-//        user.setFirstName(request.getFirstName());
-//        user.setPassword(request.getPassword());
-//        user.setLastName(request.getLastName());
-//        user.setDob(request.getDob());            // thay vi phai viet ntn, ==> ta se viet nhu duoi khi su dung mapper
+
+        request.setGender(Gender.valueOf(request.getGender().toUpperCase()).toString());
+
+        HashSet<Role> roles = new HashSet<>();
+        var userRole = roleRepository.findByName(RoleEnum.USER.name()).orElseThrow(() -> new AppException(ErrorCode.UNAUTHORIZED));
+        roles.add(userRole);
 
         User user = userMapper.toUser(request);
+        user.setStatus(UserStatus.ACTIVE);
+        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        HashSet<String> roles = new HashSet<>();
-        roles.add(RoleEnum.USER.name());
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -59,13 +64,13 @@ public class UserService implements IUserService {
     @Override
     public UserResponse updateUser(long userId, UserCreationRequest request) {
         User user = userRepository.findById(userId).orElseThrow(()-> new AppException(ErrorCode.USER_NOT_EXISTED));
+        request.setGender(Gender.valueOf(request.getGender().toUpperCase()).toString());
         userMapper.updateUser(user, request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-//        var roles = roleRepository.findById(request.getRole)
+//        var roles = roleRepository.findByName(user.getRoles());
 //        user.setRoles(new HashSet<>(roles));
-
-        return userMapper.toUserResponse(user);
+        user.getDateOfBirth();
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
     @Override
