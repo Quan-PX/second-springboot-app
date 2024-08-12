@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 @EnableWebMvc
+@EnableMethodSecurity   // PreAuthor
 public class AppConfig {
 
     private final UserService userService;
@@ -36,7 +38,7 @@ public class AppConfig {
     private final PreFilter preFiler;
 
 
-    private String[] WHITE_LIST = {"/login", "/refresh", "/users", "/auth/token", "/auth/introspect", "users/registration"};
+    private String[] WHITE_LIST = {"/login", "/refresh", "/auth/token", "/auth/introspect", "users/registration"};
 
     public AppConfig(@Lazy UserService userService, PreFilter preFiler) {
         this.userService = userService;

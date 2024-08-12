@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -55,9 +57,9 @@ public class User extends AbstractEntity<Long> implements UserDetails {
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")   // the hien moi quan he voi user, user co quan he 1 nhieu voi address
 //    Set<Address> addresses = new HashSet<>();
 
-     @ManyToMany
+     @ManyToMany(fetch = FetchType.EAGER)
      @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-     Set<Role> roles = new HashSet<>();
+     Set<Role> roles;
 
      @ManyToOne
      @JoinColumn(name = "group_id", nullable=true)     //, nullable=false
@@ -65,7 +67,7 @@ public class User extends AbstractEntity<Long> implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).toList();
     }
 
     @Override

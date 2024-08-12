@@ -13,6 +13,7 @@ import com.quanpham.secondApp.repository.UserRepository;
 import com.quanpham.secondApp.service.interfaceService.IUserService;
 import com.quanpham.secondApp.dto.request.UserCreationRequest;
 import com.quanpham.secondApp.dto.response.UserResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
