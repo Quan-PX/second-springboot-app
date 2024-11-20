@@ -2,6 +2,7 @@ package com.quanpham.secondApp.service.interfaceService;
 
 import com.quanpham.secondApp.dto.request.UserCreationRequest;
 import com.quanpham.secondApp.dto.response.UserResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 
@@ -17,7 +18,7 @@ public interface IUserService {
 
     UserResponse getUser(long userId);
 
-    List<UserResponse> getUsers();
+    List<UserResponse> getUsers(Pageable pageable);
 
 
 //    void changeStatus(long userId, UserStatus userStatus);

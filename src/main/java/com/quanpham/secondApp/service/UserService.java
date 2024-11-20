@@ -16,6 +16,7 @@ import com.quanpham.secondApp.dto.response.UserResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,9 +53,9 @@ public class UserService implements IUserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public List<UserResponse> getUsers(){
+    public List<UserResponse> getUsers(Pageable pageable){
         log.info("In method get Users");
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+        return userRepository.findAll(pageable).stream().map(userMapper::toUserResponse).toList();
     }
 
     @Override

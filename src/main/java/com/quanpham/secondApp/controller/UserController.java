@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,15 +45,14 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping()
-    ApiResponse<List<UserResponse>> getUsers(){
-
-        var authentication = SecurityContextHolder.getContext().getAuthentication();    // securitycontextholder chua thong tin user hien tại
-        log.info("User: {}", authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
-
+    ApiResponse<List<UserResponse>> getUsers(Pageable pageable){
+//        var authentication = SecurityContextHolder.getContext().getAuthentication();    // securitycontextholder chua thong tin user hien tại
+//        log.info("User: {}", authentication.getName());
+//        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+        
         return ApiResponse.<List<UserResponse>>builder()
                 .code(HttpStatus.OK.value())
-                .result(userService.getUsers())
+                .result(userService.getUsers(pageable))
                 .build();
     }
 
